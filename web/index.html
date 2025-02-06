@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PC on</title>
+
+  <style>
+    :root {
+      --accent-color: red;
+      --color: black;
+      --background-color: white;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      height: 100dvh;
+      margin: 0;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 200%;
+      color: var(--color);
+      background-color: var(--background-color);
+    }
+
+    main {
+      display: flex;
+      flex-grow: 1;
+    }
+
+    form {
+      display: flex;
+      justify-content: stretch;
+      flex-grow: 1;
+    }
+
+    button {
+      flex-grow: 1;
+      border: 2px solid var(--accent-color);
+      background-color: transparent;
+      color: inherit;
+      font: inherit;
+      padding: 0.5em 1em;
+      outline: 1px solid transparent;
+      outline-offset: -5px;
+    }
+
+    button:hover {
+      outline-color: var(--accent-color);
+    }
+
+    button:active {
+      outline-offset: -6px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color: white;
+        --background-color: black;
+      }
+    }
+
+    legend {
+      display: none;
+    }
+
+    .power-indicator {
+      display: none;
+      height: 1em;
+      background-color: transparent;
+      border: 2px solid var(--accent-color);
+    }
+
+    .power-indicator.active {
+      background-color: var(--accent-color);
+    }
+
+    .power-button::after {
+      content: "ON ";
+      display: inline-block;
+      width: 2em;
+      text-align: left;
+
+    }
+
+    .power-button.on::after {
+      content: "OFF";
+    }
+  </style>
+</head>
+
+<body>
+
+  <main>
+    <form id="statusForm" action="">
+      <legend>PC Status</legend>
+      <div id="indicator" class="power-indicator"></div>
+      <button id="power-button" class="power-button" type="button">Power </button>
+    </form>
+  </main>
+
+  <script>
+    let isOn = false;
+    function update() {
+      /**
+       * @type {HTMLFormElement}
+       */
+      const statusForm = document.forms.statusForm;
+      const indicator = statusForm.querySelector("#indicator");
+      indicator.classList.toggle("active", isOn);
+      const powerButton = statusForm.querySelector("#power-button");
+      powerButton.classList.toggle("on", isOn);
+    }
+    function getStatus() {
+      const promise = new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(!isOn)
+        }, 100);
+      })
+      return promise
+    }
+
+    setInterval(() => {
+      getStatus().then((result) => {
+        isOn = result;
+        update();
+      })
+    }, 1000);
+  </script>
+</body>
+
+</html>
