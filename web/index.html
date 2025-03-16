@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
   <title>PC on</title>
 
   <style>
@@ -20,8 +21,6 @@
       margin: 0;
       font-family: 'Courier New', Courier, monospace;
       font-size: 200%;
-      color: var(--color);
-      background-color: var(--background-color);
     }
 
     main {
@@ -52,13 +51,6 @@
 
     button:active {
       outline-offset: -6px;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --color: white;
-        --background-color: black;
-      }
     }
 
     legend {
